@@ -57,9 +57,16 @@ if (app.Environment.IsDevelopment())
 // add middleware for global exception handling
 app.UseMiddleware<Identity.Api.Middlewares.ExceptionHandler>();
 
-// Handle database seeding
-using var scope = app.Services.CreateScope();
-await DatabaseSeed.SeedRolesAndClients(scope.ServiceProvider);
+using (var scope = app.Services.CreateScope())
+{
+    var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+    
+    // Handle automatic migration on startup
+    db.Database.Migrate();
+    
+    // Handle database seeding
+    await DatabaseSeed.SeedRolesAndClients(scope.ServiceProvider);
+}
 
 app.UseHttpsRedirection();
 app.UseAuthentication();
