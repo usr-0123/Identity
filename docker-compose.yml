@@ -13,12 +13,12 @@
       ConnectionStrings__DefaultConnection: "Host=identity-postgres;Port=5432;Database=identitydb;Username=identityuser;Password=YourStrongPassword"
       Audience__0: "https://localhost:7001"
       Issuer: "https://localhost:7001"
-    restart: always
+#    restart: always
 
   identity-postgres-database:
     container_name: identity-postgres
     image: postgres:16
-    restart: always
+#    restart: always
     environment:
       POSTGRES_USER: identityuser
       POSTGRES_PASSWORD: YourStrongPassword
